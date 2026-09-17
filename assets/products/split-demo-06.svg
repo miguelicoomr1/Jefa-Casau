@@ -1,10 +1,19 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" width="400" height="300">
-  <rect width="400" height="300" fill="#e8f1fc"/>
-  <rect x="24" y="24" width="352" height="252" rx="16" fill="#ffffff" stroke="#d3dae2" stroke-width="2"/>
-  <rect x="130" y="110" width="140" height="60" rx="10" fill="#1668c1"/>
-  <circle cx="150" cy="140" r="6" fill="#ffffff"/>
-  <circle cx="170" cy="140" r="6" fill="#ffffff"/>
-  <rect x="150" y="150" width="100" height="6" rx="3" fill="#ffffff"/>
-  <text x="200" y="220" font-family="Arial, sans-serif" font-size="18" font-weight="700" fill="#0b3a6b" text-anchor="middle">Split</text>
-  <text x="200" y="245" font-family="Arial, sans-serif" font-size="12" fill="#7c8896" text-anchor="middle">Imagen demo</text>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" width="400" height="300" role="img" aria-label="Gree Split Demo 30 WiFi">
+  <defs>
+    <pattern id="pgrid" width="18" height="18" patternUnits="userSpaceOnUse">
+      <path d="M 18 0 L 0 0 0 18" fill="none" stroke="#0a1730" stroke-opacity="0.05" stroke-width="1"/>
+    </pattern>
+  </defs>
+  <rect width="400" height="300" fill="#f5f7fb"/>
+  <rect width="400" height="300" fill="url(#pgrid)"/>
+  <rect x="120" y="95" width="160" height="80" rx="6" fill="none" stroke="#1d3fa8" stroke-width="1.5" stroke-dasharray="4 4"/>
+  <circle cx="140" cy="113" r="3" fill="#2f6bff"/>
+  <circle cx="156" cy="113" r="3" fill="#2f6bff"/>
+  <line x1="120" y1="95" x2="108" y2="84" stroke="#1d3fa8" stroke-width="1" opacity="0.5"/>
+  <line x1="280" y1="95" x2="292" y2="84" stroke="#1d3fa8" stroke-width="1" opacity="0.5"/>
+  <line x1="120" y1="175" x2="108" y2="186" stroke="#1d3fa8" stroke-width="1" opacity="0.5"/>
+  <line x1="280" y1="175" x2="292" y2="186" stroke="#1d3fa8" stroke-width="1" opacity="0.5"/>
+  <text x="24" y="252" font-family="IBM Plex Mono, monospace" font-size="10" letter-spacing="1" fill="#6b7488">FOTO PRÓXIMAMENTE</text>
+  <text x="24" y="272" font-family="Inter, sans-serif" font-size="12" font-weight="700" fill="#2f6bff" letter-spacing="0.02em">Gree</text>
+  <text x="24" y="290" font-family="Inter, sans-serif" font-size="13" font-weight="600" fill="#10151f">Split Demo 30 WiFi</text>
 </svg>
