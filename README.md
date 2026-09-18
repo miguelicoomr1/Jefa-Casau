@@ -1,6 +1,6 @@
-# Refrigeración Casau — Sitio web
+# Climatización Casau — Sitio web
 
-Web comercial en HTML/CSS/JavaScript vanilla para Refrigeración Casau, empresa de climatización en Algezares, Murcia.
+Web comercial en HTML/CSS/JavaScript vanilla para Climatización Casau, empresa de climatización en Algezares, Murcia.
 
 ## Cómo ejecutar la web
 
@@ -63,7 +63,7 @@ Edita `js/products.js`. Cada producto es un objeto dentro del array `products`:
     id: 16, brand: "Marca", model: "Modelo", type: "Split",
     frigories: 3000, area: 30, price: 999, installation: 260,
     energyClass: "A++", refrigerant: "R32", seer: "...", scop: "...",
-    noise: "...", wifi: true, image: "assets/products/nueva-imagen.webp",
+    noise: "...", wifi: true, image: "assets/products/nueva-imagen.webp" /* convierte con: cd tools && npm run images */,
     description: "...", features: ["...", "..."]
 }
 ```
@@ -75,13 +75,9 @@ La interfaz (tarjetas, filtros, modal) se actualiza automáticamente sin tocar e
 - Productos: coloca las imágenes en `assets/products/` y referencia la ruta en `image` dentro de `js/products.js`.
 - Galería: coloca las imágenes en `assets/gallery/` y añade una entrada en `js/gallery-data.js`.
 
-## Configurar el formulario (envío real)
+## Configurar el formulario (envío real y antispam)
 
-Los formularios de `presupuesto.html` y `contacto.html` son actualmente una demostración: validan los campos pero no envían ningún email. Para conectarlos a un envío real:
-
-1. Sustituir la lógica de `if (validateQuoteForm(form)) { ... }` en `js/presupuesto.js` (y su equivalente en `js/contacto.js`) por una llamada `fetch()` a tu servicio de envío (Formspree, Resend, un endpoint PHP propio, etc.).
-2. No incluir claves de API ni credenciales en el código del cliente: usa variables de entorno en el backend.
-3. El email de destino centralizado es `refrigeracioncasau@gmail.com` (ver `js/config.js`).
+Los formularios usan `FormGuard` (`js/main.js`): honeypot, tiempo mínimo y Cloudflare Turnstile opcional. Pon la URL de tu servicio (Formspree, Web3Forms…) en `formEndpoint` de `js/config.js`. Ver `LANZAMIENTO.md`.
 
 ## Configurar Google Maps
 
@@ -94,6 +90,10 @@ Los iconos de Instagram y Facebook en el footer (`href="#"`) son placeholders. S
 ## Publicar la web
 
 Al ser HTML/CSS/JS estático, puede publicarse en cualquier hosting estático (Netlify, Vercel, GitHub Pages, hosting tradicional por FTP, etc.). No requiere base de datos ni backend salvo que se conecte el envío real de formularios.
+
+## Lanzamiento
+
+Lee `LANZAMIENTO.md` (checklist de 14 puntos) y ejecuta `node tools/check-links.mjs` antes de publicar.
 
 ## Datos pendientes de sustituir
 

@@ -1,6 +1,6 @@
 /**
  * Formulario de presupuesto: validación de campos, prellenado desde la tienda
- * (?equipo=Marca+Modelo) y envío en modo demo (sin backend real).
+ * (?equipo=Marca+Modelo) y envío real con antispam (FormGuard en main.js).
  */
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -33,12 +33,18 @@ function bindQuoteForm() {
     const form = document.getElementById("quoteForm");
     if (!form) return;
 
-    form.addEventListener("submit", (e) => {
+    FormGuard.init(form);
+    form.addEventListener("submit", async (e) => {
         e.preventDefault();
         if (validateQuoteForm(form)) {
-            document.getElementById("formSuccess").classList.add("is-visible");
-            form.querySelector("button[type='submit']").disabled = true;
-            document.getElementById("formSuccess").scrollIntoView({ behavior: "smooth", block: "center" });
+            const btn = form.querySelector("button[type='submit']");
+            btn.disabled = true;
+            if (await FormGuard.send(form, "Solicitud de presupuesto — Web Casau")) {
+                document.getElementById("formSuccess").classList.add("is-visible");
+                document.getElementById("formSuccess").scrollIntoView({ behavior: "smooth", block: "center" });
+            } else {
+                btn.disabled = false;
+            }
         } else {
             const firstError = form.querySelector(".has-error input, .has-error select, .has-error textarea");
             firstError?.focus();

@@ -73,40 +73,65 @@ function initWhatsappLinks() {
     document.querySelectorAll("[data-email-display]").forEach((el) => { el.textContent = siteConfig.email; });
 }
 
-/* ---------- Banner de cookies ---------- */
+/* ---------- Banner de cookies + analítica con consentimiento ---------- */
+const CONSENT_KEY = "casau_cookie_consent";
+
+function readConsent() {
+    try { return JSON.parse(localStorage.getItem(CONSENT_KEY)); } catch (e) { return null; }
+}
+
+function loadAnalytics() {
+    const id = siteConfig.gaMeasurementId;
+    if (!id || window.__gaLoaded) return;
+    window.__gaLoaded = true;
+    window.dataLayer = window.dataLayer || [];
+    window.gtag = function () { window.dataLayer.push(arguments); };
+    gtag("js", new Date());
+    gtag("config", id, { anonymize_ip: true });
+    const s = document.createElement("script");
+    s.async = true;
+    s.src = "https://www.googletagmanager.com/gtag/js?id=" + encodeURIComponent(id);
+    document.head.appendChild(s);
+}
+
+function removeAnalyticsCookies() {
+    document.cookie.split(";").forEach((c) => {
+        const name = c.split("=")[0].trim();
+        if (name === "_ga" || name.startsWith("_ga_") || name === "_gid") {
+            document.cookie = name + "=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/";
+        }
+    });
+}
+
 function initCookieBanner() {
     const banner = document.querySelector(".cookie-banner");
+    const stored = readConsent();
+    if (stored && stored.stats) loadAnalytics();
     if (!banner) return;
 
-    const STORAGE_KEY = "casau_cookie_consent";
-    let stored;
-    try { stored = JSON.parse(localStorage.getItem(STORAGE_KEY)); } catch (e) { stored = null; }
-
-    const acceptAllBtn = banner.querySelector("[data-cookie-accept]");
-    const rejectBtn = banner.querySelector("[data-cookie-reject]");
-    const configureBtn = banner.querySelector("[data-cookie-configure]");
-    const saveBtn = banner.querySelector("[data-cookie-save]");
     const prefsPanel = banner.querySelector(".cookie-prefs");
     const statsToggle = banner.querySelector("[data-cookie-stats]");
-    const marketingToggle = banner.querySelector("[data-cookie-marketing]");
-
-    if (!stored) {
+    const show = () => {
+        if (statsToggle) statsToggle.checked = !!(readConsent() || {}).stats;
         banner.classList.add("is-visible");
-    }
+    };
+
+    if (!stored) show();
 
     function saveConsent(consent) {
-        try { localStorage.setItem(STORAGE_KEY, JSON.stringify(consent)); } catch (e) { /* almacenamiento no disponible */ }
+        try { localStorage.setItem(CONSENT_KEY, JSON.stringify(consent)); } catch (e) { /* almacenamiento no disponible */ }
         banner.classList.remove("is-visible");
+        prefsPanel?.classList.remove("is-visible");
+        if (consent.stats) loadAnalytics(); else removeAnalyticsCookies();
     }
 
-    acceptAllBtn?.addEventListener("click", () => saveConsent({ necessary: true, preferences: true, stats: true, marketing: true }));
-    rejectBtn?.addEventListener("click", () => saveConsent({ necessary: true, preferences: false, stats: false, marketing: false }));
-    configureBtn?.addEventListener("click", () => prefsPanel?.classList.toggle("is-visible"));
-    saveBtn?.addEventListener("click", () => saveConsent({
-        necessary: true,
-        preferences: true,
-        stats: !!statsToggle?.checked,
-        marketing: !!marketingToggle?.checked
+    banner.querySelector("[data-cookie-accept]")?.addEventListener("click", () => saveConsent({ necessary: true, stats: true }));
+    banner.querySelector("[data-cookie-reject]")?.addEventListener("click", () => saveConsent({ necessary: true, stats: false }));
+    banner.querySelector("[data-cookie-configure]")?.addEventListener("click", () => prefsPanel?.classList.toggle("is-visible"));
+    banner.querySelector("[data-cookie-save]")?.addEventListener("click", () => saveConsent({ necessary: true, stats: !!statsToggle?.checked }));
+    document.querySelectorAll("[data-cookie-open]").forEach((b) => b.addEventListener("click", () => {
+        show();
+        prefsPanel?.classList.add("is-visible");
     }));
 }
 
@@ -132,7 +157,7 @@ function initScrollReveal() {
     items.forEach((el) => observer.observe(el));
 }
 
-/* ---------- Eventos de conversión (preparado para analítica futura) ---------- */
+/* ---------- Eventos de conversión (GA4, solo con consentimiento) ---------- */
 function trackConversionClicks() {
     const events = {
         "[data-tel-link]": "click_telefono",
@@ -144,7 +169,7 @@ function trackConversionClicks() {
     Object.entries(events).forEach(([selector, eventName]) => {
         document.querySelectorAll(selector).forEach((el) => {
             el.addEventListener("click", () => {
-                if (window.dataLayer) window.dataLayer.push({ event: eventName });
+                if (window.gtag) gtag("event", eventName);
             });
         });
     });
@@ -175,5 +200,83 @@ const FormValidation = {
         group.classList.remove("has-error");
         const errorEl = group.querySelector(".field-error");
         if (errorEl) errorEl.textContent = "";
+    }
+};
+
+/* ==========================================================================
+   Envío de formularios con antispam (usado por presupuesto.js y contacto.js)
+   Capas: honeypot + tiempo mínimo + Cloudflare Turnstile (opcional).
+   Destino: siteConfig.formEndpoint (Formspree, Web3Forms, etc.). Sin endpoint, abre el correo del usuario.
+   ========================================================================== */
+
+const FormGuard = {
+    MIN_FILL_MS: 4000,
+
+    init(form) {
+        form.__openedAt = Date.now();
+        if (!form.querySelector(".hp-field")) {
+            const hp = document.createElement("div");
+            hp.className = "hp-field";
+            hp.setAttribute("aria-hidden", "true");
+            hp.innerHTML = '<label>No rellenar este campo<input type="text" name="website" tabindex="-1" autocomplete="off"></label>';
+            form.appendChild(hp);
+        }
+        if (siteConfig.turnstileSiteKey && !form.querySelector(".cf-turnstile")) {
+            const slot = document.createElement("div");
+            slot.className = "cf-turnstile";
+            slot.setAttribute("data-sitekey", siteConfig.turnstileSiteKey);
+            form.querySelector("button[type='submit']")?.before(slot);
+            if (!document.querySelector("script[data-turnstile]")) {
+                const s = document.createElement("script");
+                s.src = "https://challenges.cloudflare.com/turnstile/v0/api.js";
+                s.async = true; s.defer = true; s.dataset.turnstile = "1";
+                document.head.appendChild(s);
+            }
+        }
+    },
+
+    showError(form, msg) {
+        let box = form.querySelector(".form-error-banner");
+        if (!box) {
+            box = document.createElement("div");
+            box.className = "form-error-banner";
+            box.setAttribute("role", "alert");
+            form.querySelector("button[type='submit']")?.after(box);
+        }
+        box.textContent = msg;
+        box.classList.add("is-visible");
+    },
+
+    async send(form, subject) {
+        form.querySelector(".form-error-banner")?.classList.remove("is-visible");
+        const data = new FormData(form);
+
+        if (data.get("website")) return true; // bot: fingimos éxito sin enviar nada
+        if (Date.now() - form.__openedAt < FormGuard.MIN_FILL_MS) {
+            FormGuard.showError(form, "Has enviado el formulario demasiado rápido. Espera unos segundos e inténtalo de nuevo.");
+            return false;
+        }
+        if (siteConfig.turnstileSiteKey && !data.get("cf-turnstile-response")) {
+            FormGuard.showError(form, "Completa la verificación antispam antes de enviar.");
+            return false;
+        }
+        data.delete("website");
+        data.append("_subject", subject);
+
+        if (!siteConfig.formEndpoint) {
+            const lines = [];
+            data.forEach((v, k) => { if (typeof v === "string" && v && !k.startsWith("_") && k !== "cf-turnstile-response") lines.push(k + ": " + v); });
+            window.location.href = "mailto:" + siteConfig.email + "?subject=" + encodeURIComponent(subject) + "&body=" + encodeURIComponent(lines.join("\n"));
+            return true;
+        }
+        try {
+            const res = await fetch(siteConfig.formEndpoint, { method: "POST", body: data, headers: { Accept: "application/json" } });
+            if (!res.ok) throw new Error(String(res.status));
+            if (window.gtag) gtag("event", "form_submit", { form_name: subject });
+            return true;
+        } catch (e) {
+            FormGuard.showError(form, "No hemos podido enviar el formulario. Inténtalo de nuevo o escríbenos por WhatsApp o email.");
+            return false;
+        }
     }
 };

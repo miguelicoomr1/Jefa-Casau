@@ -1,0 +1,10 @@
+{
+  "name": "casau-tools",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "images": "node optimize-images.mjs",
+    "check": "node check-links.mjs"
+  },
+  "devDependencies": { "sharp": "^0.33.5" }
+}

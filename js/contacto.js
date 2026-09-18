@@ -1,5 +1,5 @@
 /**
- * Formulario de contacto: misma filosofía de validación y envío demo
+ * Formulario de contacto: misma filosofía de validación y envío real con antispam
  * que el formulario de presupuesto.
  */
 
@@ -7,12 +7,18 @@ document.addEventListener("DOMContentLoaded", () => {
     const form = document.getElementById("contactForm");
     if (!form) return;
 
-    form.addEventListener("submit", (e) => {
+    FormGuard.init(form);
+    form.addEventListener("submit", async (e) => {
         e.preventDefault();
         if (validateContactForm(form)) {
-            document.getElementById("contactSuccess").classList.add("is-visible");
-            form.querySelector("button[type='submit']").disabled = true;
-            document.getElementById("contactSuccess").scrollIntoView({ behavior: "smooth", block: "center" });
+            const btn = form.querySelector("button[type='submit']");
+            btn.disabled = true;
+            if (await FormGuard.send(form, "Mensaje de contacto — Web Casau")) {
+                document.getElementById("contactSuccess").classList.add("is-visible");
+                document.getElementById("contactSuccess").scrollIntoView({ behavior: "smooth", block: "center" });
+            } else {
+                btn.disabled = false;
+            }
         } else {
             const firstError = form.querySelector(".has-error input, .has-error textarea");
             firstError?.focus();

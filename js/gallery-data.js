@@ -1,6 +1,6 @@
 /**
  * Imágenes DEMO de galería. Deben sustituirse por fotografías reales de
- * instalaciones de Refrigeración Casau cuando estén disponibles.
+ * instalaciones de Climatización Casau cuando estén disponibles.
  */
 
 const galleryImages = [

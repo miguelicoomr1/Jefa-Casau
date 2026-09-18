@@ -1,6 +1,6 @@
 /**
  * Catálogo DEMO de productos. Todos los precios y datos técnicos son
- * orientativos y deben sustituirse por el catálogo real de Refrigeración Casau.
+ * orientativos y deben sustituirse por el catálogo real de Climatización Casau.
  * Estructura pensada para poder reemplazar este archivo sin tocar la interfaz.
  */
 
@@ -10,7 +10,7 @@ const products = [
         frigories: 2500, area: 25, price: 799, installation: 250,
         energyClass: "A++", refrigerant: "R32", seer: "6.5 (demo)", scop: "4.0 (demo)",
         noise: "20 dB(A) (demo)", wifi: false,
-        image: "assets/products/producto-01.jpg",
+        image: "assets/products/producto-01.webp",
         description: "Equipo split demo para dormitorios y estancias pequeñas.",
         features: ["Modo silencioso", "Filtro de aire", "Control por mando"]
     },
@@ -19,7 +19,7 @@ const products = [
         frigories: 3500, area: 35, price: 1099, installation: 280,
         energyClass: "A+++", refrigerant: "R32", seer: "8.5 (demo)", scop: "5.1 (demo)",
         noise: "19 dB(A) (demo)", wifi: true,
-        image: "assets/products/producto-02.jpg",
+        image: "assets/products/producto-02.webp",
         description: "Equipo split demo con WiFi integrado para salones medianos.",
         features: ["WiFi integrado", "Modo económico", "Filtro purificador"]
     },
@@ -28,7 +28,7 @@ const products = [
         frigories: 4500, area: 45, price: 1299, installation: 280,
         energyClass: "A++", refrigerant: "R32", seer: "7.2 (demo)", scop: "4.6 (demo)",
         noise: "21 dB(A) (demo)", wifi: true,
-        image: "assets/products/producto-03.jpg",
+        image: "assets/products/producto-03.webp",
         description: "Split demo de alta potencia para salones y espacios abiertos.",
         features: ["WiFi integrado", "Modo turbo", "Bajo nivel sonoro"]
     },
@@ -37,7 +37,7 @@ const products = [
         frigories: 2500, area: 25, price: 899, installation: 250,
         energyClass: "A+++", refrigerant: "R32", seer: "8.0 (demo)", scop: "4.9 (demo)",
         noise: "19 dB(A) (demo)", wifi: true,
-        image: "assets/products/producto-04.jpg",
+        image: "assets/products/producto-04.webp",
         description: "Diseño cuidado y alta eficiencia para dormitorios.",
         features: ["Diseño premium", "Filtro nanoe", "WiFi integrado"]
     },
@@ -46,7 +46,7 @@ const products = [
         frigories: 5000, area: 50, price: 1899, installation: 420,
         energyClass: "A++", refrigerant: "R32", seer: "6.8 (demo)", scop: "4.2 (demo)",
         noise: "22 dB(A) (demo)", wifi: false,
-        image: "assets/products/producto-05.jpg",
+        image: "assets/products/producto-05.webp",
         description: "Sistema multisplit demo para climatizar dos estancias con una sola unidad exterior.",
         features: ["2 unidades interiores", "Ahorro de espacio exterior"]
     },
@@ -55,7 +55,7 @@ const products = [
         frigories: 7000, area: 70, price: 2599, installation: 520,
         energyClass: "A+", refrigerant: "R32", seer: "6.2 (demo)", scop: "4.0 (demo)",
         noise: "23 dB(A) (demo)", wifi: false,
-        image: "assets/products/producto-06.jpg",
+        image: "assets/products/producto-06.webp",
         description: "Sistema multisplit demo de 3 unidades para vivienda completa.",
         features: ["3 unidades interiores", "Control independiente por estancia"]
     },
@@ -64,7 +64,7 @@ const products = [
         frigories: 6000, area: 60, price: 2899, installation: 650,
         energyClass: "A+", refrigerant: "R32", seer: "6.0 (demo)", scop: "3.8 (demo)",
         noise: "28 dB(A) en conducto (demo)", wifi: false,
-        image: "assets/products/producto-07.jpg",
+        image: "assets/products/producto-07.webp",
         description: "Equipo de conductos demo para climatización integrada de vivienda.",
         features: ["Instalación oculta en falso techo", "Reja de impulsión discreta"]
     },
@@ -73,7 +73,7 @@ const products = [
         frigories: 9000, area: 90, price: 3799, installation: 780,
         energyClass: "A", refrigerant: "R32", seer: "5.8 (demo)", scop: "3.6 (demo)",
         noise: "30 dB(A) en conducto (demo)", wifi: true,
-        image: "assets/products/producto-08.jpg",
+        image: "assets/products/producto-08.webp",
         description: "Solución de conductos demo para viviendas y locales de gran superficie.",
         features: ["Alta capacidad", "Control centralizado WiFi"]
     },
@@ -82,7 +82,7 @@ const products = [
         frigories: 6000, area: 60, price: 2450, installation: 620,
         energyClass: "A+", refrigerant: "R32", seer: "6.4 (demo)", scop: "3.9 (demo)",
         noise: "27 dB(A) (demo)", wifi: false,
-        image: "assets/products/producto-09.jpg",
+        image: "assets/products/producto-09.webp",
         description: "Cassette de techo demo indicado para locales comerciales.",
         features: ["Distribución de aire en 4 vías", "Diseño integrado en techo"]
     },
@@ -91,7 +91,7 @@ const products = [
         frigories: 7000, area: 70, price: 2699, installation: 640,
         energyClass: "A+", refrigerant: "R32", seer: "6.1 (demo)", scop: "3.7 (demo)",
         noise: "29 dB(A) (demo)", wifi: false,
-        image: "assets/products/producto-10.jpg",
+        image: "assets/products/producto-10.webp",
         description: "Unidad suelo-techo demo para locales, oficinas y comercios.",
         features: ["Instalación versátil", "Adecuado para reformas"]
     },
@@ -100,7 +100,7 @@ const products = [
         frigories: 2100, area: 20, price: 449, installation: 0,
         energyClass: "A", refrigerant: "R290", seer: "—", scop: "—",
         noise: "52 dB(A) (demo)", wifi: false,
-        image: "assets/products/producto-11.jpg",
+        image: "assets/products/producto-11.webp",
         description: "Equipo portátil demo sin instalación fija, ideal como solución rápida.",
         features: ["Sin obra", "Fácil de mover entre estancias"]
     },
@@ -109,7 +109,7 @@ const products = [
         frigories: 12000, area: 120, price: 4599, installation: 950,
         energyClass: "A", refrigerant: "R410A", seer: "5.4 (demo)", scop: "3.4 (demo)",
         noise: "32 dB(A) (demo)", wifi: false,
-        image: "assets/products/producto-12.jpg",
+        image: "assets/products/producto-12.webp",
         description: "Equipo de alta capacidad demo para naves y locales comerciales grandes.",
         features: ["Alta capacidad frigorífica", "Uso comercial/industrial ligero"]
     },
@@ -118,7 +118,7 @@ const products = [
         frigories: 2000, area: 18, price: 699, installation: 230,
         energyClass: "A++", refrigerant: "R32", seer: "6.6 (demo)", scop: "4.1 (demo)",
         noise: "20 dB(A) (demo)", wifi: false,
-        image: "assets/products/producto-13.jpg",
+        image: "assets/products/producto-13.webp",
         description: "Equipo compacto demo para habitaciones pequeñas y despachos.",
         features: ["Formato compacto", "Bajo consumo"]
     },
@@ -127,7 +127,7 @@ const products = [
         frigories: 3000, area: 30, price: 949, installation: 260,
         energyClass: "A+++", refrigerant: "R32", seer: "8.2 (demo)", scop: "5.0 (demo)",
         noise: "19 dB(A) (demo)", wifi: true,
-        image: "assets/products/producto-14.jpg",
+        image: "assets/products/producto-14.webp",
         description: "Split demo de alta eficiencia energética con control WiFi.",
         features: ["Alta eficiencia A+++", "WiFi integrado"]
     },
@@ -136,7 +136,7 @@ const products = [
         frigories: 9000, area: 90, price: 3299, installation: 640,
         energyClass: "A+", refrigerant: "R32", seer: "6.0 (demo)", scop: "3.8 (demo)",
         noise: "23 dB(A) (demo)", wifi: false,
-        image: "assets/products/producto-15.jpg",
+        image: "assets/products/producto-15.webp",
         description: "Sistema multisplit demo de 4 unidades para viviendas grandes.",
         features: ["4 unidades interiores", "Gestión independiente por zona"]
     }
