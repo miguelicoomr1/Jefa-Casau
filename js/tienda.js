@@ -13,17 +13,22 @@ document.addEventListener("DOMContentLoaded", () => {
     prefillFromQueryParam();
 });
 
+function fieldValue(id, fallback = "todas") {
+    const el = document.getElementById(id);
+    return el ? el.value : fallback;
+}
+
 function getFilterState() {
     return {
-        brand: document.getElementById("filterBrand").value,
-        frigories: document.getElementById("filterFrigories").value,
-        area: document.getElementById("filterArea").value,
-        type: document.getElementById("filterType").value,
-        priceMin: parseFloat(document.getElementById("filterPriceMin").value) || null,
-        priceMax: parseFloat(document.getElementById("filterPriceMax").value) || null,
-        energy: document.getElementById("filterEnergy").value,
-        search: document.getElementById("searchInput").value.trim().toLowerCase(),
-        sort: document.getElementById("sortSelect").value
+        brand: fieldValue("filterBrand"),
+        frigories: fieldValue("filterFrigories"),
+        area: fieldValue("filterArea"),
+        type: fieldValue("filterType"),
+        priceMin: parseFloat(fieldValue("filterPriceMin", "")) || null,
+        priceMax: parseFloat(fieldValue("filterPriceMax", "")) || null,
+        energy: fieldValue("filterEnergy"),
+        search: fieldValue("searchInput", "").trim().toLowerCase(),
+        sort: fieldValue("sortSelect", "recomendados")
     };
 }
 

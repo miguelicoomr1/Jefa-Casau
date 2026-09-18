@@ -28,18 +28,21 @@ function initHeaderScroll() {
 function initMobileNav() {
     const toggle = document.querySelector(".nav-toggle");
     const nav = document.querySelector(".main-nav");
+    const header = document.querySelector(".site-header");
     if (!toggle || !nav) return;
 
     const closeNav = () => {
         nav.classList.remove("is-open");
         toggle.setAttribute("aria-expanded", "false");
         document.body.classList.remove("nav-open");
+        header?.classList.remove("nav-elevated");
     };
 
     toggle.addEventListener("click", () => {
         const isOpen = nav.classList.toggle("is-open");
         toggle.setAttribute("aria-expanded", String(isOpen));
         document.body.classList.toggle("nav-open", isOpen);
+        header?.classList.toggle("nav-elevated", isOpen);
     });
 
     nav.querySelectorAll("a").forEach((link) => link.addEventListener("click", closeNav));
@@ -47,6 +50,15 @@ function initMobileNav() {
     document.addEventListener("keydown", (e) => {
         if (e.key === "Escape" && nav.classList.contains("is-open")) closeNav();
     });
+
+    const mq = window.matchMedia("(min-width: 961px)");
+    const handleBreakpointChange = (e) => { if (e.matches) closeNav(); };
+    if (mq.addEventListener) mq.addEventListener("change", handleBreakpointChange);
+    else mq.addListener(handleBreakpointChange);
+
+    window.addEventListener("resize", () => {
+        if (window.innerWidth > 960 && nav.classList.contains("is-open")) closeNav();
+    }, { passive: true });
 }
 
 /* ---------- Enlaces WhatsApp / teléfono / email centralizados ---------- */
