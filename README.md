@@ -12,7 +12,7 @@ Proyecto estático HTML/CSS/JavaScript. Conserva el diseño, las animaciones, la
 
 - Datos de contacto: js/config.js. La dirección, el horario y el JSON-LD también están presentes en el HTML para funcionar sin JavaScript.
 - Servicios: index.html. Catálogo: tienda.html y js/products.js, con 15 equipos de demostración, imágenes, precios orientativos, filtros, buscador y fichas.
-- Calefacción y solar: aerotermia.html. Se conserva la URL para mantener los enlaces existentes.
+- Aerotermia: aerotermia.html. Restaurada la estructura original con explicación, etapas, aplicaciones, monobloc/bibloc y marcas de ejemplo.
 - Historia y reseñas: sobre-nosotros.html y js/trust-data.js.
 - Las imágenes de galería son recursos ilustrativos genéricos; no se atribuyen a CLIMATSOL.
 - La identificación gráfica es tipográfica, creada para esta adaptación; no se afirma que sea el logotipo oficial.
