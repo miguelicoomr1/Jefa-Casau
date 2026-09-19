@@ -1,13 +1,13 @@
 /**
  * main.js — comportamiento global compartido por todas las páginas:
- * header sticky, menú móvil, WhatsApp flotante, banner de cookies,
+ * header sticky, menú móvil, contacto, banner de cookies,
  * animación al hacer scroll y utilidades de validación de formularios.
  */
 
 document.addEventListener("DOMContentLoaded", () => {
     initHeaderScroll();
     initMobileNav();
-    initWhatsappLinks();
+    initContactLinks();
     initCookieBanner();
     initScrollReveal();
     trackConversionClicks();
@@ -61,12 +61,8 @@ function initMobileNav() {
     }, { passive: true });
 }
 
-/* ---------- Enlaces WhatsApp / teléfono / email centralizados ---------- */
-function initWhatsappLinks() {
-    document.querySelectorAll("[data-whatsapp-link]").forEach((el) => {
-        const customMsg = el.getAttribute("data-whatsapp-message");
-        el.href = buildWhatsappLink(customMsg);
-    });
+/* ---------- Enlaces de contacto centralizados ---------- */
+function initContactLinks() {
     document.querySelectorAll("[data-tel-link]").forEach((el) => { el.href = buildTelLink(); });
     document.querySelectorAll("[data-mail-link]").forEach((el) => { el.href = buildMailLink(); });
     document.querySelectorAll("[data-phone-display]").forEach((el) => { el.textContent = siteConfig.phoneDisplay; });
@@ -74,7 +70,7 @@ function initWhatsappLinks() {
 }
 
 /* ---------- Banner de cookies + analítica con consentimiento ---------- */
-const CONSENT_KEY = "casau_cookie_consent";
+const CONSENT_KEY = "climatsol_cookie_consent";
 
 function readConsent() {
     try { return JSON.parse(localStorage.getItem(CONSENT_KEY)); } catch (e) { return null; }
@@ -161,7 +157,7 @@ function initScrollReveal() {
 function trackConversionClicks() {
     const events = {
         "[data-tel-link]": "click_telefono",
-        "[data-whatsapp-link]": "click_whatsapp",
+
         "[data-track='presupuesto']": "click_presupuesto",
         "[data-track='producto']": "click_producto",
         "[data-track='galeria']": "click_galeria"
@@ -206,7 +202,7 @@ const FormValidation = {
 /* ==========================================================================
    Envío de formularios con antispam (usado por presupuesto.js y contacto.js)
    Capas: honeypot + tiempo mínimo + Cloudflare Turnstile (opcional).
-   Destino: siteConfig.formEndpoint (Formspree, Web3Forms, etc.). Sin endpoint, abre el correo del usuario.
+   Destino opcional: siteConfig.formEndpoint. Sin endpoint, descarga un resumen local.
    ========================================================================== */
 
 const FormGuard = {
@@ -264,9 +260,14 @@ const FormGuard = {
         data.append("_subject", subject);
 
         if (!siteConfig.formEndpoint) {
-            const lines = [];
-            data.forEach((v, k) => { if (typeof v === "string" && v && !k.startsWith("_") && k !== "cf-turnstile-response") lines.push(k + ": " + v); });
-            window.location.href = "mailto:" + siteConfig.email + "?subject=" + encodeURIComponent(subject) + "&body=" + encodeURIComponent(lines.join("\n"));
+            const lines = [subject, 'CLIMATSOL · Teléfono: 968 84 21 43', 'Resumen local. No enviado a la empresa.', ''];
+            data.forEach((v, k) => { if (typeof v === 'string' && v && !k.startsWith('_') && k !== 'cf-turnstile-response') lines.push(k + ': ' + v); });
+            const blob = new Blob([lines.join('\n')], {type:'text/plain;charset=utf-8'});
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.href = url; link.download = 'solicitud-climatsol.txt';
+            document.body.appendChild(link); link.click(); link.remove();
+            setTimeout(() => URL.revokeObjectURL(url), 1000);
             return true;
         }
         try {
@@ -275,7 +276,7 @@ const FormGuard = {
             if (window.gtag) gtag("event", "form_submit", { form_name: subject });
             return true;
         } catch (e) {
-            FormGuard.showError(form, "No hemos podido enviar el formulario. Inténtalo de nuevo o escríbenos por WhatsApp o email.");
+            FormGuard.showError(form, "No hemos podido enviar el formulario. Inténtalo de nuevo o llama al 968 84 21 43.");
             return false;
         }
     }

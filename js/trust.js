@@ -22,7 +22,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
     if (trustData.testimonials.length) {
         fill("trust-testimonials", trustData.testimonials.map((t) => `<figure class="testimonial">
-            <blockquote>“${esc(t.quote)}”</blockquote><figcaption>${esc(t.name)}${t.place ? " · " + esc(t.place) : ""}</figcaption></figure>`).join(""));
+            <p class="review-stars" role="img" aria-label="${t.rating} de 5 estrellas">★★★★★</p>${t.quote ? `<blockquote>“${esc(t.quote)}”</blockquote>` : `<p>Valoración sin comentario escrito.</p>`}<figcaption>${esc(t.name)}${t.place ? " · " + esc(t.place) : ""}</figcaption></figure>`).join(""));
     }
     if (trustData.clients.length) {
         fill("trust-clients", trustData.clients.map((c) => `<li>${esc(c)}</li>`).join(""));

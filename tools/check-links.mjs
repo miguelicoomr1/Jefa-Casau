@@ -15,7 +15,8 @@ for (const f of new Set(files)) {
     let u = (m[1] || m[2] || m[3] || "").replace(/['"]/g, "");
     if (!u || f === "js/trust-data.js" || u.includes("${") || /^(https?:|mailto:|tel:|data:|\$\{|javascript:)/.test(u)) continue;
     if (u === "#") { if (f.endsWith(".html") && !/data-(tel|mail|whatsapp)-link/.test(txt.slice(Math.max(0, m.index - 200), m.index + 200))) { console.log(`ENLACE VACÍO  ${f}: href="#"`); bad++; } continue; }
-    const [path, hash] = u.split("#");
+    const [urlPath, hash] = u.split("#");
+    const path = urlPath.split("?")[0];
     const target = path === "" ? f : posix.join(f.startsWith("js/") ? "." : posix.dirname(f), path);
     if (!existsSync(join(root, target))) { console.log(`ROTO  ${f} → ${u}`); bad++; }
     else if (hash && ids[target] && !ids[target].has(hash)) { console.log(`ANCLA ROTA  ${f} → ${u}`); bad++; }

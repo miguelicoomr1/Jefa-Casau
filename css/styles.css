@@ -3,7 +3,7 @@
 @font-face{font-family:'Space Grotesk';font-style:normal;font-weight:500 700;font-display:swap;src:url(../assets/fonts/space-grotesk-latin.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
 @font-face{font-family:'IBM Plex Mono';font-style:normal;font-weight:500;font-display:swap;src:url(../assets/fonts/ibm-plex-mono-500-latin.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
 /* ==========================================================================
-   CLIMATIZACIÓN CASAU — Sistema de diseño
+   CLIMATSOL — Sistema de diseño
    ========================================================================== */
 
 :root {
@@ -1124,3 +1124,14 @@ h3 { font-weight: 700; }
 [hidden] { display: none !important; }
 @media (min-width: 961px) and (max-width: 1240px) { .btn-call { display: none; } }
 .main-nav .nav-links a { white-space: nowrap; }
+
+/* Contenido verificado de CLIMATSOL */
+.review-stars { color: #835900; font-size: 1.4rem; letter-spacing: .12em; }
+.testimonial { margin: 0; }
+.service-card .btn { white-space: normal; }
+.map-card iframe { display: block; max-width: 100%; }
+.site-footer .btn-secondary { color: var(--color-white); border-color: var(--color-gray-500); }
+@media (max-width: 600px) {
+    .btn { white-space: normal; text-align: center; }
+    .hero-actions, .cta-final-actions { flex-wrap: wrap; }
+}

@@ -1,6 +1,6 @@
 /**
  * Catálogo DEMO de productos. Todos los precios y datos técnicos son
- * orientativos y deben sustituirse por el catálogo real de Climatización Casau.
+ * orientativos y deben sustituirse por el catálogo real de CLIMATSOL.
  * Estructura pensada para poder reemplazar este archivo sin tocar la interfaz.
  */
 

@@ -1,6 +1,6 @@
 /**
  * Formulario de presupuesto: validación de campos, prellenado desde la tienda
- * (?equipo=Marca+Modelo) y envío real con antispam (FormGuard en main.js).
+ * (?equipo=Marca+Modelo) y resumen local (FormGuard en main.js).
  */
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -12,6 +12,9 @@ document.addEventListener("DOMContentLoaded", () => {
 function prefillEquipoFromQuery() {
     const params = new URLSearchParams(window.location.search);
     const equipo = params.get("equipo");
+    const requestedService = params.get('servicio');
+    const select = document.getElementById('qServicio');
+    if (requestedService && [...select.options].some(o => o.value === requestedService)) select.value = requestedService;
     if (!equipo) return;
     const textarea = document.getElementById("qMensaje");
     textarea.value = `Estoy interesado en el equipo ${equipo}.`;
@@ -39,9 +42,10 @@ function bindQuoteForm() {
         if (validateQuoteForm(form)) {
             const btn = form.querySelector("button[type='submit']");
             btn.disabled = true;
-            if (await FormGuard.send(form, "Solicitud de presupuesto — Web Casau")) {
+            if (await FormGuard.send(form, "Solicitud de presupuesto — Web CLIMATSOL")) {
                 document.getElementById("formSuccess").classList.add("is-visible");
                 document.getElementById("formSuccess").scrollIntoView({ behavior: "smooth", block: "center" });
+                btn.disabled = false;
             } else {
                 btn.disabled = false;
             }

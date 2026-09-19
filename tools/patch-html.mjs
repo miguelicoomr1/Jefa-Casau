@@ -2,7 +2,8 @@
 import { readFileSync, writeFileSync, readdirSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 const dir = fileURLToPath(new URL("../", import.meta.url));
-const SITE = "https://www.refrigeracioncasau.com";
+// Sin dominio público autorizado: no se generan URLs absolutas del sitio.
+const SITE = "";
 
 const banner = `<div class="cookie-banner" role="dialog" aria-modal="false" aria-labelledby="cookie-title">
   <p id="cookie-title"><strong>Tu privacidad</strong></p>
@@ -43,22 +44,25 @@ for (const f of readdirSync(dir).filter((n) => n.endsWith(".html"))) {
   h = h.replace(/<meta property="og:[^>]*>\s*|<meta name="twitter:[^>]*>\s*|<link rel="icon"[^>]*>\s*|<link rel="apple-touch-icon"[^>]*>\s*|<link rel="manifest"[^>]*>\s*|<meta name="theme-color"[^>]*>\s*/g, "");
   let social = "";
   if (indexable) {
-    const ogTitle = title.split(" | ")[0];
     social = `<meta property="og:type" content="website">
 <meta property="og:locale" content="es_ES">
-<meta property="og:site_name" content="Climatización Casau">
+<meta property="og:site_name" content="CLIMATSOL">
 <meta property="og:title" content="${title}">
 <meta property="og:description" content="${desc}">
 <meta property="og:url" content="${canon}">
 <meta property="og:image" content="${SITE}/assets/images/og-image.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="Climatización Casau — climatización profesional en Murcia">
+<meta property="og:image:alt" content="CLIMATSOL — climatización profesional en Murcia">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="${title}">
 <meta name="twitter:description" content="${desc}">
 <meta name="twitter:image" content="${SITE}/assets/images/og-image.png">
 `;
+  }
+  if (!SITE) {
+    social = social.replace(/^<meta (?:property="og:(?:url|image(?::[^"]+)?)"|name="twitter:image")[^>]*>\s*$/gm, "")
+      .replace('content="summary_large_image"', 'content="summary"');
   }
   const icons = `<meta name="theme-color" content="#0a1730">
 <link rel="icon" href="favicon.ico" sizes="32x32">
@@ -67,7 +71,7 @@ for (const f of readdirSync(dir).filter((n) => n.endsWith(".html"))) {
 <link rel="manifest" href="site.webmanifest">
 `;
   h = h.replace(/(<link rel="canonical"[^>]*>\s*)/, `$1${social}${icons}`);
-  if (!h.includes('rel="manifest"')) h = h.replace("</head>", `${icons}</head>`); // 404 sin canonical
+  if (!h.includes('rel="manifest"')) h = h.replace("</head>", `${social}${icons}</head>`);
 
   // footer: quita redes con href="#" (enlaces rotos) y añade reabrir cookies
   h = h.replace(/\s*<div class="footer-social">.*?<\/div>\s*(?=<\/div>)/s, "\n      ");

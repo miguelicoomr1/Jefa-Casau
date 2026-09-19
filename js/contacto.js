@@ -1,5 +1,5 @@
 /**
- * Formulario de contacto: misma filosofía de validación y envío real con antispam
+ * Formulario de contacto: validación y preparación de un resumen local con antispam
  * que el formulario de presupuesto.
  */
 
@@ -13,9 +13,10 @@ document.addEventListener("DOMContentLoaded", () => {
         if (validateContactForm(form)) {
             const btn = form.querySelector("button[type='submit']");
             btn.disabled = true;
-            if (await FormGuard.send(form, "Mensaje de contacto — Web Casau")) {
+            if (await FormGuard.send(form, "Mensaje de contacto — Web CLIMATSOL")) {
                 document.getElementById("contactSuccess").classList.add("is-visible");
                 document.getElementById("contactSuccess").scrollIntoView({ behavior: "smooth", block: "center" });
+                btn.disabled = false;
             } else {
                 btn.disabled = false;
             }
@@ -73,3 +74,13 @@ function validateContactForm(form) {
 
     return valid;
 }
+
+// Mapa de la ficha verificada, cargado solo a petición del visitante.
+document.getElementById('loadMap')?.addEventListener('click', () => {
+ const frame = document.createElement('iframe');
+ frame.title = 'Ubicación de CLIMATSOL en C. Mayor, 37, Garres y Lages, Murcia';
+ frame.src = 'https://maps.google.com/maps?cid=3869468522116903768&output=embed';
+ frame.width = '600'; frame.height = '320'; frame.style.cssText = 'width:100%;border:0';
+ frame.referrerPolicy = 'no-referrer-when-downgrade';
+ document.getElementById('mapContainer').replaceChildren(frame);
+});

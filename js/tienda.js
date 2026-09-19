@@ -210,7 +210,7 @@ function openProductModal(productId) {
                 <div class="product-price-row"><span>Instalación desde</span><span>${p.installation.toLocaleString("es-ES")} €</span></div>
                 <div class="product-price-total"><span>Total orientativo</span><span>${total.toLocaleString("es-ES")} €</span></div>
             </div>
-            <p class="form-demo-note">Los precios mostrados son orientativos y deberán sustituirse por el catálogo actualizado de Climatización Casau.</p>
+            <p class="form-demo-note">Los precios mostrados son orientativos y deberán sustituirse por el catálogo actualizado de CLIMATSOL.</p>
             <a href="presupuesto.html?equipo=${encodeURIComponent(p.brand + ' ' + p.model)}" class="btn btn-primary btn-block" data-track="producto">Solicitar presupuesto para este equipo</a>
         </div>`;
 

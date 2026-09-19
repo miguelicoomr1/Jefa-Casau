@@ -1,6 +1,6 @@
 /**
  * Imágenes DEMO de galería. Deben sustituirse por fotografías reales de
- * instalaciones de Climatización Casau cuando estén disponibles.
+ * instalaciones de CLIMATSOL cuando estén disponibles.
  */
 
 const galleryImages = [
